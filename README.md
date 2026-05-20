@@ -1,67 +1,46 @@
-# enc - Lightweight Secure CLI Encryption Tool
+# enc
 
-A single-file, zero-dependency CLI utility for secure encryption and decryption using a custom state-mutating stream cipher.
+A lightweight, zero-dependency CLI encryption tool.
 
-## Features
-- **Zero Dependencies:** Pure standard C code.
-- **Custom State-Mutating Cipher:** Prevents frequency analysis by mutating the internal state after every byte.
-- **Flexible Key Management:** Load keys from strings, files, or a default `key.txt`.
-- **File Input/Output:** Encrypt/decrypt raw strings or file contents with ease.
-- **Clean CLI:** Standard help flags and dynamic argument parsing.
+## Installation
 
-## Directory Structure
-- `src/`: Contains the source code (`enc.c`).
-- `scripts/`: Installation and uninstallation scripts for Windows PowerShell.
-- `Makefile`: Build automation for development.
-
-## Installation (Windows)
-
-### Quick One-Liner (Remote)
-Open PowerShell and run:
+### Quick Install (Windows)
+Run the following in PowerShell:
 ```powershell
-iwr -useb https://raw.githubusercontent.com/dummy3ye/enc/refs/heads/master/scripts/get.ps1 | iex
+iwr -useb https://raw.githubusercontent.com/dummy3ye/enc/master/scripts/get.ps1 | iex
 ```
 
-### Manual Installation (Local)
-To install globally from a cloned repo:
-```powershell
-# Using the Makefile
-make install
+### Manual Build
+1. Clone the repo: `git clone https://github.com/dummy3ye/enc`
+2. Build with `make` (requires GCC)
+3. Install: `make install`
 
-# OR running the script directly
-.\scripts\install.ps1
-```
-
-## Quick Start
+## Usage
 
 ### Encryption
 ```bash
-# Encrypt a string
-enc -e "hello world" -key "mysecret"
+# String to hex
+enc -e "my text" -key "password"
 
-# Encrypt a file
+# File to hex
 enc -e input.txt -key "mysecret" -o output.hex
 ```
 
 ### Decryption
 ```bash
-# Decrypt a hex string
-enc -d "4be41ef2..." -key "mysecret"
+# Hex to string
+enc -d "4be41ef2..." -key "password"
 
-# Decrypt a file
+# File to plain text
 enc -d output.hex -key "mysecret" -o restored.txt
 ```
 
-### Key from File
-If no `-key` is provided, `enc` looks for `key.txt` in the current directory. You can also specify a custom key file:
-```bash
-enc -e "secret message" -f my_key_file.txt
-```
+## Key Management
+- **Manual:** Pass `-key "yourkey"`
+- **File:** Pass `-f "keyfile.txt"`
+- **Automatic:** If no key is provided, `enc` looks for `key.txt` in the current directory.
 
-## Build for Development
-```bash
-make
+## Uninstall
+```powershell
+make uninstall
 ```
-
-## License
-MIT (or choose your preferred license)
