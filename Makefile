@@ -17,6 +17,9 @@ all: $(EXECUTABLE)
 $(EXECUTABLE): $(SRC)
 	$(CC) $(CFLAGS) $(SRC) -o $(EXECUTABLE)
 
+bin:
+	$(CC) $(CFLAGS) $(SRC) -o bin/$(TARGET).exe
+
 clean:
 	$(RM) $(EXECUTABLE)
 

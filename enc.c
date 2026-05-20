@@ -25,17 +25,14 @@ static void init_context(CipherContext *ctx, const char *key) {
     ctx->state[i % STATE_SIZE] ^= (uint8_t)key[i];
     mix_state(ctx->state);
   }
-
   for (int i = 0; i < 4; i++)
     mix_state(ctx->state);
 }
 
-/* Mutate state based on the feedback byte (ciphertext) */
 static void mutate_state(uint8_t state[STATE_SIZE], uint8_t feedback) {
   for (int i = 0; i < STATE_SIZE; i++) {
     state[i] = (state[i] ^ (feedback + i)) + state[(i + 1) % STATE_SIZE];
   }
-  // Circular shift
   uint8_t first = state[0];
   for (int i = 0; i < STATE_SIZE - 1; i++) {
     state[i] = state[i + 1];
@@ -70,7 +67,6 @@ static char *load_key_from_file(const char *filename) {
   size_t read_size = fread(key, 1, size, f);
   key[read_size] = '\0';
   fclose(f);
-
   while (read_size > 0 &&
          (key[read_size - 1] == '\n' || key[read_size - 1] == '\r' ||
           key[read_size - 1] == ' ')) {
@@ -104,14 +100,13 @@ static char *load_input_content(const char *input, size_t *out_len) {
 static void print_usage() {
   printf("enc - Lightweight Secure CLI Encryption Tool\n\n");
   printf("Usage:\n");
-  printf("  enc -e <text|file> [-k \"key\" | -f \"file\"] [-o \"out\"]\n");
-  printf("  enc -d <hex|file>  [-k \"key\" | -f \"file\"] [-o \"out\"]\n\n");
+  printf("  enc -e <text|file> [-key \"key\" | -f \"file\"] [-o \"out\"]\n");
+  printf("  enc -d <hex|file>  [-key \"key\" | -f \"file\"] [-o \"out\"]\n\n");
   printf("Options:\n");
   printf("  -e <input>    Encrypt plain text or file content.\n");
   printf("  -d <input>    Decrypt hex string or file containing hex.\n");
-  printf("  -k <string> Provide the encryption key directly.\n");
-  printf("  -f <file>     Load the encryption key from a file (default: "
-         "key.txt).\n");
+  printf("  -key <string> Provide the encryption key directly.\n");
+  printf("  -f <file>     Load the encryption key from a file.\n");
   printf("  -o <file>     Write output to a file instead of stdout.\n");
   printf("  -h, --help    Show this help message.\n");
 }
@@ -121,7 +116,7 @@ int main(int argc, char *argv[]) {
   char *key_str = NULL;
   char *key_file = NULL;
   char *output_file = NULL;
-  int mode = 0; // 1 for encrypt, 2 for decrypt
+  int mode = 0;
 
   if (argc == 1) {
     print_usage();
@@ -138,7 +133,7 @@ int main(int argc, char *argv[]) {
     } else if (strcmp(argv[i], "-d") == 0 && i + 1 < argc) {
       input_arg = argv[++i];
       mode = 2;
-    } else if (strcmp(argv[i], "-k") == 0 && i + 1 < argc) {
+    } else if (strcmp(argv[i], "-key") == 0 && i + 1 < argc) {
       key_str = argv[++i];
     } else if (strcmp(argv[i], "-f") == 0 && i + 1 < argc) {
       key_file = argv[++i];
@@ -173,8 +168,7 @@ int main(int argc, char *argv[]) {
     } else {
       allocated_key = load_key_from_file("key.txt");
       if (!allocated_key) {
-        fprintf(stderr,
-                "Error: No key provided (-key) and 'key.txt' not found.\n");
+        fprintf(stderr, "Error: No key provided and 'key.txt' not found.\n");
         if (input_content != input_arg)
           free(input_content);
         return 1;
@@ -199,15 +193,14 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  if (mode == 1) { // Encrypt
+  if (mode == 1) {
     for (size_t i = 0; i < input_len; i++) {
       uint8_t c = transform_byte(&ctx, (uint8_t)input_content[i], 1);
       fprintf(out, "%02x", c);
     }
     if (!output_file)
       fprintf(out, "\n");
-  } else { // Decrypt
-
+  } else {
     if (input_content != input_arg) {
       while (input_len > 0 && (input_content[input_len - 1] == '\n' ||
                                input_content[input_len - 1] == '\r' ||
@@ -215,7 +208,6 @@ int main(int argc, char *argv[]) {
         input_content[--input_len] = '\0';
       }
     }
-
     if (input_len % 2 != 0) {
       fprintf(stderr, "Invalid hexadecimal input length.\n");
       if (output_file)

@@ -1,0 +1,27 @@
+{
+  "name": "enc",
+  "version": "1.0.0",
+  "description": "a cli tool for text encode and decoding",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "format": "prettier --write ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dummy3ye/enc.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/dummy3ye/enc/issues"
+  },
+  "homepage": "https://github.com/dummy3ye/enc#readme",
+  "devDependencies": {
+    "prettier": "^3.8.3"
+  }
+}
