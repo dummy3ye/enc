@@ -19,7 +19,7 @@ A single-file, zero-dependency CLI utility for secure encryption and decryption 
 ### Quick One-Liner (Remote)
 Open PowerShell and run:
 ```powershell
-iwr -useb https://raw.githubusercontent.com/dummy3ye/enc/master/scripts/get.ps1 | iex
+iwr -useb https://github.com/dummy3ye/enc/blob/master/scripts/get.ps1 | iex
 ```
 
 ### Manual Installation (Local)
