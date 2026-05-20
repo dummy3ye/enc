@@ -98,7 +98,7 @@ static char *load_input_content(const char *input, size_t *out_len) {
 }
 
 static void print_usage() {
-  printf("enc - Lightweight Secure CLI Encryption Tool\n\n");
+  printf("enc - cli encode & decoder\n\n");
   printf("Usage:\n");
   printf("  enc -e <text|file> [-key \"key\" | -f \"file\"] [-o \"out\"]\n");
   printf("  enc -d <hex|file>  [-key \"key\" | -f \"file\"] [-o \"out\"]\n\n");
