@@ -9,7 +9,6 @@ typedef struct {
   uint8_t state[STATE_SIZE];
 } CipherContext;
 
-/* Non-linear mixing function to diffuse state bits */
 static void mix_state(uint8_t state[STATE_SIZE]) {
   for (int i = 0; i < STATE_SIZE; i++) {
     state[i] ^=
@@ -19,15 +18,14 @@ static void mix_state(uint8_t state[STATE_SIZE]) {
   }
 }
 
-/* Hash/Stretch the user key into the initial 16-byte state */
 static void init_context(CipherContext *ctx, const char *key) {
-  memset(ctx->state, 0xAA, STATE_SIZE); // Initial seed
+  memset(ctx->state, 0xAA, STATE_SIZE);
   size_t key_len = strlen(key);
   for (size_t i = 0; i < key_len; i++) {
     ctx->state[i % STATE_SIZE] ^= (uint8_t)key[i];
     mix_state(ctx->state);
   }
-  // Final mixing rounds to ensure all key bits affect the whole state
+
   for (int i = 0; i < 4; i++)
     mix_state(ctx->state);
 }
@@ -53,7 +51,6 @@ static uint8_t transform_byte(CipherContext *ctx, uint8_t b, int encrypt) {
   return out;
 }
 
-/* Load key from a file */
 static char *load_key_from_file(const char *filename) {
   FILE *f = fopen(filename, "rb");
   if (!f)
@@ -73,7 +70,7 @@ static char *load_key_from_file(const char *filename) {
   size_t read_size = fread(key, 1, size, f);
   key[read_size] = '\0';
   fclose(f);
-  // Trim trailing newline/whitespace
+
   while (read_size > 0 &&
          (key[read_size - 1] == '\n' || key[read_size - 1] == '\r' ||
           key[read_size - 1] == ' ')) {
@@ -82,7 +79,6 @@ static char *load_key_from_file(const char *filename) {
   return key;
 }
 
-/* Load content from a file or return NULL if not a file */
 static char *load_input_content(const char *input, size_t *out_len) {
   FILE *f = fopen(input, "rb");
   if (!f)
@@ -211,7 +207,7 @@ int main(int argc, char *argv[]) {
     if (!output_file)
       fprintf(out, "\n");
   } else { // Decrypt
-    // If it's a file, we might have whitespace to trim from the hex string
+
     if (input_content != input_arg) {
       while (input_len > 0 && (input_content[input_len - 1] == '\n' ||
                                input_content[input_len - 1] == '\r' ||

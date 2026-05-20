@@ -17,7 +17,7 @@ if (-not (Test-Path $InstallDir)) {
 $TempSrc = Join-Path $env:TEMP "enc_tmp.c"
 Write-Host "Downloading source from GitHub..." -ForegroundColor Cyan
 try {
-    Invoke-WebRequest -Uri "$RepoUrl/src/enc.c" -OutFile $TempSrc -UseBasicParsing
+    Invoke-WebRequest -Uri "$RepoUrl/enc.c" -OutFile $TempSrc -UseBasicParsing
 } catch {
     Write-Error "Failed to download source code. Check your internet connection or the repository URL."
     exit 1

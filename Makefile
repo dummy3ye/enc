@@ -1,9 +1,7 @@
-# Makefile for enc utility
-
 CC = gcc
 CFLAGS = -O3 -Wall -Wextra
 TARGET = enc
-SRC = src/enc.c
+SRC = enc.c
 
 # Detect OS for executable extension
 ifeq ($(OS),Windows_NT)
@@ -23,7 +21,7 @@ clean:
 	$(RM) $(EXECUTABLE)
 
 install:
-	powershell -ExecutionPolicy Bypass -File scripts/install.ps1
+	powershell -ExecutionPolicy Bypass -File install.ps1
 
 uninstall:
 	powershell -ExecutionPolicy Bypass -File scripts/uninstall.ps1
