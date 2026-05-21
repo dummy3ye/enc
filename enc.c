@@ -98,14 +98,14 @@ static char *load_input_content(const char *input, size_t *out_len) {
 }
 
 static void print_usage() {
-  printf("enc - cli encode & decoder\n\n");
+  printf("enc - a cli encode & decoder\n\n");
   printf("Usage:\n");
-  printf("  enc -e <text|file> [-key \"key\" | -f \"file\"] [-o \"out\"]\n");
-  printf("  enc -d <hex|file>  [-key \"key\" | -f \"file\"] [-o \"out\"]\n\n");
+  printf("  enc -e <text|file> [-k \"key\" | -f \"file\"] [-o \"out\"]\n");
+  printf("  enc -d <hex|file>  [-k \"key\" | -f \"file\"] [-o \"out\"]\n\n");
   printf("Options:\n");
   printf("  -e <input>    Encrypt plain text or file content.\n");
   printf("  -d <input>    Decrypt hex string or file containing hex.\n");
-  printf("  -key <string> Provide the encryption key directly.\n");
+  printf("  -k <string> Provide the encryption key directly.\n");
   printf("  -f <file>     Load the encryption key from a file.\n");
   printf("  -o <file>     Write output to a file instead of stdout.\n");
   printf("  -h, --help    Show this help message.\n");
@@ -133,7 +133,7 @@ int main(int argc, char *argv[]) {
     } else if (strcmp(argv[i], "-d") == 0 && i + 1 < argc) {
       input_arg = argv[++i];
       mode = 2;
-    } else if (strcmp(argv[i], "-key") == 0 && i + 1 < argc) {
+    } else if (strcmp(argv[i], "-k") == 0 && i + 1 < argc) {
       key_str = argv[++i];
     } else if (strcmp(argv[i], "-f") == 0 && i + 1 < argc) {
       key_file = argv[++i];

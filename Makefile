@@ -2,8 +2,8 @@ CC = gcc
 CFLAGS = -O3 -Wall -Wextra
 TARGET = enc
 SRC = enc.c
+BIN = bin/
 
-# Detect OS for executable extension
 ifeq ($(OS),Windows_NT)
     EXECUTABLE = $(TARGET).exe
     RM = del /Q
@@ -22,6 +22,9 @@ bin:
 
 clean:
 	$(RM) $(EXECUTABLE)
+
+clean bin:
+	del -Recurse bin
 
 install:
 	powershell -ExecutionPolicy Bypass -File install.ps1
