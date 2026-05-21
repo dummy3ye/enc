@@ -166,9 +166,9 @@ int main(int argc, char *argv[]) {
       }
       key_str = allocated_key;
     } else {
-      allocated_key = load_key_from_file("key.txt");
+      allocated_key = load_key_from_file("key.key");
       if (!allocated_key) {
-        fprintf(stderr, "Error: No key provided and 'key.txt' not found.\n");
+        fprintf(stderr, "Error: No key provided and 'key.key' not found.\n");
         if (input_content != input_arg)
           free(input_content);
         return 1;

@@ -1,5 +1,3 @@
-# install.ps1 - a cli tool for text encode and decoding
-
 $InstallDir = "$HOME\.enc"
 $ExeName = "enc.exe"
 $FullPath = Join-Path $InstallDir $ExeName

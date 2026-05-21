@@ -1,5 +1,3 @@
-# uninstall.ps1 - a cli tool for text encode and decoding
-
 $InstallDir = "$HOME\.enc"
 
 Write-Host "Removing $InstallDir from PATH..." -ForegroundColor Cyan
