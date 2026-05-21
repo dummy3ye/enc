@@ -9,3 +9,8 @@ pag.moveTo(
         y= 200,
         duration=5
         )
+time.sleep(2)
+pag.typewrite(
+        message= "what",
+        interval= 0
+        )
