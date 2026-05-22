@@ -32,4 +32,7 @@ install:
 uninstall:
 	powershell -ExecutionPolicy Bypass -File scripts/uninstall.ps1
 
+key:
+	python ./test/py/crypto/hexcrypto.py
+
 .PHONY: all clean
